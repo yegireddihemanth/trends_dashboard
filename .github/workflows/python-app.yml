@@ -30,4 +30,5 @@ jobs:
       run: curl https://api.ipify.org
     - name: running main
       run: 
-        python3 main.py
+        export FLASK_APP=main.py
+        flask run --host=0.0.0.0
