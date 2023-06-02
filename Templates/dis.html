@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>KEYWORD_PERFORMANCE</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    body {
+      background-image: url('https://static.vecteezy.com/system/resources/previews/000/570/382/original/vector-abstract-financial-chart-with-uptrend-line-graph-and-numbers-in-stock-market-on-gradient-white-color-background.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-color: #f2f2f2;
+    }
+    .table-container{
+      background-color: #f2f2f2;
+    }
+    .table {
+      text-align: center;
+    }
+    th, td {
+      vertical-align: middle !important;
+    }
+    .table-container {
+      overflow-x: auto;
+    }
+    .btn-primary {
+      background-color: #999999;
+      color: #fff;
+      border-color: #999999;
+    }
+    .btn-primary:hover {
+      background-color: #999999;
+      color: #000000;
+    }
+    .btn-primary:hover i {
+      color: #ffffff;
+    }
+    .btn-primary.focus,
+    .btn-primary:focus {
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3 class="mt-3" style="font-family: Arial, sans-serif; font-weight: bold;">Key Word: {{ job_title }}</h3>
+    <form action="form_data" method="POST" enctype="multipart/form-data">
+      <div class="container">
+        <div class="form-fields">
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <select class="form-select small-input" id="year" name="year" required></select>
+            </div>
+            <div class="col-md-4 mb-4">
+              <input type="file" class="form-control small-input" id="csv_file" name="csv_file" accept=".csv" required>
+            </div>
+            <div class="col-md-4 mb-3">
+              <button type="submit" class="btn btn-primary ms-2">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>    
+    <h4 style="display: flex; align-items: center; font-family: Arial, sans-serif; font-size: 18px;">
+      <span style="flex: 1;">**Top Performing Months are {{ months_lis }}</span>
+      <button style="margin-left: 10px; font-family: Arial, sans-serif; font-size: 14px;" class="btn btn-primary btn-sm" onclick="ExportToExcel('xlsx')">
+        <i class="fa fa-download"></i> Download
+      </button>
+    </h4>
+    <div class="table-container">
+      <table class="table table-bordered table-striped" id="download_table">
+        <thead class="table-dark">
+          <tr>
+            {% for header in csv_data[0] %}
+              <th scope="col">{{ header }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in csv_data[1:] %}
+            <tr>
+              {% for column in row %}
+                <td>{{ column }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <!-- Include the graph -->
+  <div class="container">
+    {% include 'figure.html' %}
+  </div>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+</body>
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+<script>
+  function ExportToExcel(type, fn, dl) {
+    var keyWord = "{{ job_title }}"; // Get the key word name
+    var elt = document.getElementById('download_table');
+    var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+    return dl
+      ? XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' })
+      : XLSX.writeFile(wb, `${keyWord}_data.${type}`);
+  }
+</script>
+<script>
+    var select = document.getElementById("year");
+    var currentYear = new Date().getFullYear();
+    var startYear = 2004;
+    for (var year = startYear; year <= currentYear; year++) {
+      var option = document.createElement("option");
+      option.text = year;
+      option.value = year;
+      select.appendChild(option);
+    }
+</script>
+</html>
