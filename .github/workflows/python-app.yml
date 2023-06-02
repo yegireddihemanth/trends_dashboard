@@ -28,6 +28,5 @@ jobs:
     - name: 🔎 Check IP
       run: curl https://api.ipify.org
     - name: running main
-      run: |
-        cd /home/runner/work/trends_dashboard
-        python3 main.py
+      run: 
+        python3 keyword planner 2/main.py
