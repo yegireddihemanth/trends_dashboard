@@ -4,11 +4,7 @@
 name: trends dashboard
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
+  workflow_dispatch:
 permissions:
   contents: read
 
@@ -33,4 +29,4 @@ jobs:
       run: curl https://api.ipify.org
     - name: running main
       run: |
-        python3 main.py
+        python3 ./main.py
