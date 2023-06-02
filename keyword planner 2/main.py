@@ -65,4 +65,4 @@ def process_form():
 
 # Run the application if the script is executed directly
 if __name__ == '__main__':
-    app.run(port=5002, debug=True)
+    app.run('0.0.0.0',port=5002, debug=True)
