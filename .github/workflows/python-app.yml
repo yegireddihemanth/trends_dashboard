@@ -28,5 +28,5 @@ jobs:
     - name: 🔎 Check IP
       run: curl https://api.ipify.org
     - name: running main
-      run: |
-        python3 trends_dashboard/main.py
+      run:
+        python main.py
