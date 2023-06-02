@@ -27,6 +27,9 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: 🔎 Check IP
       run: curl https://api.ipify.org
+    - name: setting path
+      run:  
+         cd /home/runner/work/trends_dashboard
     - name: running main
       run:
-        python main.py
+        python3 main.py
